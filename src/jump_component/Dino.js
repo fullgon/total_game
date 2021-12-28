@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-function Dino(){
-    const canvasRef = useRef(null);
+function Dino({canvas, isStart}){
     //블로그는 const로 했는데 나는 const로 하면 오류남 
     let requestAnimationRef = useRef(null);
 
@@ -20,30 +19,37 @@ function Dino(){
     const MAX_JUMP = 90;
     const JUMP_INTERVAL = 3;
 
-    //console.log(jumpHeight);
 
-    useEffect(() =>{//캔버스 그리기
-        window.addEventListener("keydown", (e) =>{
-            e.preventDefault();
-            if(e.keyCode === 32 && !isJump){//점프중이 아닐 때 스페이스바를 누르면
-                //점프함수 실행;
-                isPress = true;
-                console.log("스페이스");
+    useEffect(() =>{
+        if(canvas !== null){//부모 캔버스 받아왔을 때
+            console.log("간즈드아");
+            window.addEventListener("keydown", (e) =>{//키다운 이벤트 등록
+                e.preventDefault();
+                if(e.keyCode === 32 && !isJump){//점프중이 아닐 때 스페이스바를 누르면
+                    isPress = true;
+                    console.log("스페이스");
+                }
+            });
+            if(isStart){
+                console.log("게임중")
+                requestAnimationRef.current = requestAnimationFrame(render);
             }
-        });
-        requestAnimationRef.current = requestAnimationFrame(render);
+            else{
+                console.log("게임중아님")
+                canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+            }
+            
+        }
+        
         return () => {
             cancelAnimationFrame(requestAnimationRef.current);
         };
-    },[])
+    },[isStart])
 
+    //랜더링
     const render = () =>{
         
-        const canvas = canvasRef.current
         const context = canvas.getContext('2d');
-
-        context.lineWidth = 2;
-        context.strokeStyle = "black";
 
         if(isPress){//스페이스 바가 눌리면
             isJump = true;//점프중으로 바꾸고
@@ -84,8 +90,7 @@ function Dino(){
     }
     
     return (
-        <div>    
-            <canvas ref={canvasRef} width={500} height={600} />
+        <div>
         </div>
     )
 }
