@@ -1,4 +1,4 @@
-import './App.css';
+//import './App.css';
 import Backgroun from './jump_component/Backgroun';
 import Dino from './jump_component/Dino';
 
