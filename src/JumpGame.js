@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Backgroun from "./jump_component/Backgroun";
 import Dino from "./jump_component/Dino";
+import Enemy from "./jump_component/Enemy";
 
 export default function JumpGame() {
 
@@ -17,7 +18,11 @@ export default function JumpGame() {
         <div>
             <canvas ref={canvasRef}  width={500} height={600}></canvas>
             <Backgroun isStart={isStart}/>
-            <Dino canvas={canvasRef.current} isStart={isStart}/>
+            {//<Dino canvas={canvasRef.current} isStart={isStart}/>
+            }
+            
+            <Enemy canvas={canvasRef.current} isStart={isStart}/>
+            
 
             <button onClick={onStart}>리렌더링겸 게임시작</button>
         </div>

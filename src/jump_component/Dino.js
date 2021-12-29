@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+
 function Dino({canvas, isStart}){
     //블로그는 const로 했는데 나는 const로 하면 오류남 
     let requestAnimationRef = useRef(null);
@@ -10,7 +11,7 @@ function Dino({canvas, isStart}){
     let down = 0;//내려가기
     
     const preset = {
-        x : 100,
+        x : 0,
         y : 100,
         width : 50,
         height : 60
@@ -22,7 +23,6 @@ function Dino({canvas, isStart}){
 
     useEffect(() =>{
         if(canvas !== null){//부모 캔버스 받아왔을 때
-            console.log("간즈드아");
             window.addEventListener("keydown", (e) =>{//키다운 이벤트 등록
                 e.preventDefault();
                 if(e.keyCode === 32 && !isJump){//점프중이 아닐 때 스페이스바를 누르면
@@ -31,11 +31,9 @@ function Dino({canvas, isStart}){
                 }
             });
             if(isStart){
-                console.log("게임중")
                 requestAnimationRef.current = requestAnimationFrame(render);
             }
             else{
-                console.log("게임중아님")
                 canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
             }
             
@@ -75,6 +73,7 @@ function Dino({canvas, isStart}){
             down = 0;
             context.clearRect(0,0,canvas.width,canvas.height);
             context.fillRect(preset.x, preset.y, preset.width, preset.height);
+            
         }
 
         requestAnimationRef.current = requestAnimationFrame(render);
