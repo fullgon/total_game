@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import Enemy from "./Enemy";
+import playerImg from "../image/player.png"
 
 
 function Dino({canvas, isStart}){
@@ -9,11 +11,14 @@ function Dino({canvas, isStart}){
     let isPress = false;
     let jumpHeight = 0;//점프높이
     let down = 0;//내려가기
+
+    const image = new Image();
+    image.src = playerImg;
     
     const preset = {
         x : 0,
         y : 100,
-        width : 50,
+        width : 30,
         height : 60
     }
 
@@ -53,17 +58,19 @@ function Dino({canvas, isStart}){
             isJump = true;//점프중으로 바꾸고
             jumpHeight += JUMP_INTERVAL;
             if(jumpHeight <= MAX_JUMP){//점프높이가 MAX_JUMP가 될 때 까지
-                context.clearRect(0,0,canvas.width,canvas.height);
+                context.clearRect(preset.x, preset.y - jumpHeight, preset.width, preset.height + JUMP_INTERVAL);
                 context.fillRect(preset.x, preset.y - jumpHeight, preset.width, preset.height);//y값에 최대 점프 높이까지 3씩 빼기
+                context.drawImage(image, preset.x, preset.y - jumpHeight, preset.width, preset.height);
             }
-            if(jumpHeight === MAX_JUMP){
+            if(jumpHeight === MAX_JUMP){//끝점 도달 시
                 isPress = false;
             }
         }
         else if(!isPress && jumpHeight > 0 && isJump){//점프높이가 0이 될 때 까지
             
-            context.clearRect(0,0,canvas.width,canvas.height);
+            context.clearRect(preset.x, preset.y - MAX_JUMP + down - JUMP_INTERVAL, preset.width, preset.height);
             context.fillRect(preset.x, preset.y - MAX_JUMP + down, preset.width, preset.height);//y값에 점프높이 빼고 3씩 더해주기
+            context.drawImage(image, preset.x, preset.y -MAX_JUMP + down, preset.width, preset.height);
 
             down += JUMP_INTERVAL;
             jumpHeight -= JUMP_INTERVAL;          
@@ -71,8 +78,9 @@ function Dino({canvas, isStart}){
         else{
             isJump = false;
             down = 0;
-            context.clearRect(0,0,canvas.width,canvas.height);
-            context.fillRect(preset.x, preset.y, preset.width, preset.height);
+            //context.clearRect(0,0,canvas.width,canvas.height);
+            //context.fillRect(preset.x, preset.y, preset.width, preset.height);
+            //context.drawImage(image, preset.x, preset.y, preset.width, preset.height);
             
         }
 
@@ -89,8 +97,7 @@ function Dino({canvas, isStart}){
     }
     
     return (
-        <div>
-        </div>
+        <Enemy canvas={canvas} isStart={isStart}/>
     )
 }
 
