@@ -1,0 +1,15 @@
+.button{
+    width: 120px;
+    border-radius: 40%;
+}
+
+.canvas{
+    border-style: solid;
+    
+}
+
+.align{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

@@ -1,15 +1,27 @@
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import dinoImg from "../image/dino.png"
 
-function Enemy({canvas, isStart}){
+const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
     let requestAnimationRef = useRef(null);
 
     const enemyArr = [];
 
     let frame = 0;
 
+    let jump = 0;
+
     const MOVE_SPEED = 6;
     const SPAWN_INTERVER = 100;
+
+    const setJump = (value) => {
+        jump = value;
+    }
+
+    useImperativeHandle(ref, ()=>({
+        wLog : () => console.log(jump),
+        addJump : value => setJump(value)
+    }))
+
 
     useEffect(() => {
         if(canvas !== null){
@@ -36,7 +48,7 @@ function Enemy({canvas, isStart}){
                 image : image,
                 move : 0,
                 x : 500,
-                y : 130,
+                y : 310,
                 width : 30,
                 height : 30
             }
@@ -45,8 +57,14 @@ function Enemy({canvas, isStart}){
         }
 
         enemyArr.map((enemy, index, arr) =>{
+            //충돌 판정
+            if(playerPreset.x + playerPreset.width - (enemyArr[0].x - enemyArr[0].move) >= 0
+            && (playerPreset.y + playerPreset.height - jump) - enemyArr[0].y >= 0){
+                console.log("Game Over : 충돌");
+                setIsStart(false);
+            }
 
-            if(enemy.x + enemy.width - enemy.move >= -4){//조건이 >= 0 이면 왼쪽 벽 에 적의 모습이 조금 남음
+            if(enemy.x + enemy.width - enemy.move >= 0){
                 /*enemy.image.onload = () =>{
                     context.clearRect(0,0,canvas.width,canvas.height);
                     context.drawImage(enemy.image, enemy.x - enemy.move, enemy.y, enemy.width, enemy.height);
@@ -60,27 +78,14 @@ function Enemy({canvas, isStart}){
 
             }
             else{
+                context.clearRect(enemy.x - enemy.move, enemy.y, enemy.width + MOVE_SPEED, enemy.height);
                 arr.shift();//배열 첫 번째 요소 삭제
                 
             }
         }) 
 
-
-
-        /*move += 2;
-        image.src = dinoImg;
-        if(preset.x + preset.width - move >= 0){
-            image.onload = () =>{
-                context.clearRect(0,0,canvas.width,canvas.height);
-                context.drawImage(image, preset.x - move, preset.y, preset.width, preset.height);
-            }
-        }
-        else{
-            //배열에서 첫번째 요소 삭제
-            move = 0;
-        }
-        */
         
+
         frame += 1;
 
         requestAnimationRef.current = requestAnimationFrame(render);
@@ -90,6 +95,6 @@ function Enemy({canvas, isStart}){
         <div>
         </div>
     )
-}
+});
 
 export default Enemy;
