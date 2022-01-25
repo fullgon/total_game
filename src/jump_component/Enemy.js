@@ -28,6 +28,7 @@ const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
         if(canvas !== null){
             if(isStart){
                 requestAnimationRef.current = requestAnimationFrame(render);
+                scoreRef.current.start();
             }
             else{
                 canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
