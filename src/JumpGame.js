@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import {useRef, useState } from "react";
 import Backgroun from "./jump_component/Backgroun";
 import Dino from "./jump_component/Dino";
 import styles from "./jump_css/JumpGame.module.css"
