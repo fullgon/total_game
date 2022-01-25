@@ -83,7 +83,6 @@ function Dino({canvas, isStart, setIsStart}){
             isJump = false;
             preset.down = 0;
             context.clearRect(preset.x, preset.y, preset.width, preset.height);
-            //context.fillRect(preset.x, preset.y, preset.width, preset.height);
             context.drawImage(image, preset.x, preset.y, preset.width, preset.height);
             
         }

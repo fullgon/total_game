@@ -5,6 +5,7 @@ const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
     let requestAnimationRef = useRef(null);
 
     const enemyArr = [];
+    const [score, setScore] = useState(0);
 
     let frame = 0;
 
@@ -21,7 +22,6 @@ const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
         wLog : () => console.log(jump),
         addJump : value => setJump(value)
     }))
-
 
     useEffect(() => {
         if(canvas !== null){
@@ -80,7 +80,7 @@ const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
             else{
                 context.clearRect(enemy.x - enemy.move, enemy.y, enemy.width + MOVE_SPEED, enemy.height);
                 arr.shift();//배열 첫 번째 요소 삭제
-                
+                setScore(score => score = score + 100);   
             }
         }) 
 
@@ -93,6 +93,10 @@ const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
 
     return (
         <div>
+             {isStart ? 
+        <h1>{score}</h1> :
+        <h1>점수 : {score}</h1>
+        }
         </div>
     )
 });

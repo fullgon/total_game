@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { onScore } from "./Score";
+import styles from "../jump_css/Background.module.css"
 
 function Backgroun({isStart}) {
 
@@ -17,12 +18,8 @@ function Backgroun({isStart}) {
     
    
     return (
-        <div>
-        {isStart ? 
-        <h1>게임중</h1> :
-        <h1>게임중이 아니다</h1>
-        }
-        <h2>0</h2>
+        <div className={styles.align}>
+       
         </div>
     )
 }
