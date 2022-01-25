@@ -1,18 +1,20 @@
-export function onScore(check){
-    let score = 0;
-    let interval;
+import { forwardRef, useImperativeHandle, useState } from "react";
 
-    setTimeout(function Score(){
-        if(check){
-            score += 2;            
-            console.log(check);
-            setTimeout(Score, 400); 
-        }
-        else{
-            console.log("멈챠!" + check);    
-        }
-        
-    }, 400)
+export default function Score({isStart}, ref){
 
-    return score;
+    const [score, setScore] = useState(0);
+
+    useImperativeHandle(ref, ()=>({
+        addScore: () => setScore(score => score = score + 100)
+    }))
+
+    return(
+        <div>
+            {isStart ? 
+        <h1>{score}</h1> :
+        <h1>점수 : {score}</h1>
+        }
+        </div>
+    )
 }
+Score = forwardRef(Score);

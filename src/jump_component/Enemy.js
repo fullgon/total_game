@@ -1,11 +1,12 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef} from "react";
 import dinoImg from "../image/dino.png"
+import Score from "./Score"
 
 const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
-    let requestAnimationRef = useRef(null);
+    const requestAnimationRef = useRef(null);
+    const scoreRef = useRef(null);
 
     const enemyArr = [];
-    const [score, setScore] = useState(0);
 
     let frame = 0;
 
@@ -40,7 +41,6 @@ const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
     const render = () =>{
         
         const context = canvas.getContext('2d');
-        //context.clearRect(0,0,canvas.width,canvas.height);
         if(frame % SPAWN_INTERVER === 0){//60프레임당 1번
             const image = new Image();//이미지 객체
             image.src = dinoImg;
@@ -79,8 +79,8 @@ const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
             }
             else{
                 context.clearRect(enemy.x - enemy.move, enemy.y, enemy.width + MOVE_SPEED, enemy.height);
-                arr.shift();//배열 첫 번째 요소 삭제
-                setScore(score => score = score + 100);   
+                arr.shift();//배열 첫 번째 요소 삭제 
+                scoreRef.current.addScore();
             }
         }) 
 
@@ -93,10 +93,7 @@ const Enemy = forwardRef(({canvas, isStart, setIsStart, playerPreset}, ref) => {
 
     return (
         <div>
-             {isStart ? 
-        <h1>{score}</h1> :
-        <h1>점수 : {score}</h1>
-        }
+            <Score isStart={isStart} ref={scoreRef} />
         </div>
     )
 });
